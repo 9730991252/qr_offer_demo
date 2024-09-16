@@ -83,7 +83,7 @@ ExecStart=/root/qr_offer_demo/venv/bin/gunicorn \
           --access-logfile - \
           --workers 3 \
           --bind unix:/run/qr_offer_demo.com.gunicorn.sock \
-          qr_offer_demo.wsgi:application
+          qr_offer.wsgi:application
 
 [Install]
 WantedBy=multi-user.target
@@ -133,7 +133,7 @@ server{
     listen 80;
     listen [::]:80;
 
-    server_name qr_offer_demo.narayaniorder.com www.qr_offer_demo.narayaniorder.com;
+    server_name qrofferdemo.narayaniorder.com www.qrofferdemo.narayaniorder.com;
     client_max_body_size 500M;
 
     location = /favicon.ico { access_log off; log_not_found off; }
