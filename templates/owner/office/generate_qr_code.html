@@ -1,0 +1,200 @@
+{% extends 'home/base.html' %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+{% include 'include/alert.html' %}
+{% include 'include/office_menu.html' %}
+<style>
+    *{
+       margin: 0;
+       padding: 0;
+       box-sizing: border-box;
+    }
+
+  .sticky_footer{
+      position: fixed;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      background-color: rgb(197, 197, 197);
+      padding: 5px;
+      border-radius: 10px;
+      input{
+          width: 200px;
+      }
+  }
+  .tag_box{
+    height: 1in;
+     width: 1in;
+     border: 1px solid rgb(0, 0, 0);
+     margin-bottom: 3mm;
+     margin-left: auto;
+     margin-right: auto;
+    text-align: center;
+    }
+    .Valid_box{
+      text-align: center;
+      line-height: 0px;
+        h6{
+          font-size: 7px;
+          font-weight: 700;
+          letter-spacing: 1px;
+        }
+      }
+      .sr_num_qr_box{
+          display: flex;
+          justify-content: center;
+        }
+      #sr_nummber{
+        line-height: 0px;
+        margin-top: auto;
+        margin-bottom: auto;
+        width: 7px;
+        h6{
+          transform: rotate(90deg);
+          font-size: 7px;
+          font-weight: 700;
+          letter-spacing: 1px;
+        }
+
+      }
+    #img_box{
+      width: 90%;
+    }
+    img{
+        height: 70px;
+    }
+</style>
+<style media="print">
+    @page{
+  margin: 0in;
+  padding: 0in;
+  size: 1.5 1.95in;
+}
+.hide{
+display: none;
+}
+.tag_box{
+border: none;
+}
+</style>
+<input type="hidden" value="{{e.id}}" id="e_id">
+
+
+<div id="tag_result"></div>
+<div class="container">
+    <!--* content -->
+    <div class="container hide">
+        <div id="tag_list">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Sr num</th>
+                <th scope="col">Tag Number</th>
+                <th scope="col">Generate Date</th>
+                <th scope="col">Generate By</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for qr in tag_list %}
+              <tr>
+                <td>{{qr.sr_num}}</td>
+                <td>{{qr.tag_number}}</td>
+                <td>{{qr.generate_date}}</td>
+                <td>{{qr.employee.name}}</td>
+                <td><a class="btn btn-info" onclick="re_print('{{qr.sr_num}}','{{qr.tag_number}}')">Re Generate</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+    <nav aria-label="..." class="hide">
+        <ul class="pagination">
+          {% if tag_list.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="/office/generate_qr_code?page=1" tabindex="-1">First</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="/office/generate_qr_code?page={{tag_list.previous_page_number}}" tabindex="-1">Previous</a>
+          </li>
+          {% endif %}
+          {% for n in total_page_list %}
+          <li class="page-item"><a class="page-link" href="/office/generate_qr_code?page={{n}}">{{n}}</a></li>
+          {% endfor %}
+          {% if tag_list.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="/office/generate_qr_code?page={{tag_list.next_page_number}}">Next</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="/office/generate_qr_code?page={{last_page}}">Last</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    <!--// end content -->
+</div>
+
+
+<div class="sticky_footer hide">
+    <input type="number" oninput="tag_limit()" id="tag_qty" class="form-control" placeholder="Tag Qty">
+    <button class="btn btn-success" onclick="generate_tag()" >Generate Tag</button>
+    <button class="btn btn-primary" onclick="print_tag()">Print</button>
+</div>
+
+<script>
+    function tag_limit(){
+        tag_qty = document.getElementById('tag_qty').value;
+        if( tag_qty > 25){
+            document.getElementById('tag_qty').value='';
+        }
+    }
+    function generate_tag(){
+        tag_qty = document.getElementById('tag_qty').value;
+        if (tag_qty == ''){
+          alert('Please Enter Value')
+        }
+        e_id = document.getElementById('e_id').value;
+        $.ajax({
+            url: "{% url 'generate_tag' %}",
+            method: "GET",
+            data:{
+                qty:tag_qty,
+                eid:e_id
+            
+            },
+             success: function(res){
+                document.getElementById('tag_qty').value='';
+                $("#tag_result").html(res.t);
+                $("#tag_list").html(res.tag_list);
+                $("html, body").animate({ scrollTop: 0 }, "fast");
+             }
+        })
+    }
+    function print_tag(){
+        window.print()
+        location.reload()
+        img = document.getElementById('img');
+        img.src=''
+    }
+    function re_print(sr_num,tag_number){
+      $("#tag_result").empty();
+      temp = `    <div class="tag_box">
+        <div>
+            <div>
+                <div class="Valid_box"><h6>Valid To- 31 Dec 24<h6></div>
+            </div>
+            <div class="sr_num_qr_box">
+                <div id="sr_nummber"><h6>${sr_num}</h6></div>
+                <div id="img_box"><img src="https://api.qrserver.com/v1/create-qr-code/?size=151x151&data=${tag_number}" ></div>
+            </div>
+        </div>
+    </div>`
+      $("#tag_result").html(temp);
+      $("html, body").animate({ scrollTop: 0 }, "fast");
+  }
+</script>
+{% endblock content %}

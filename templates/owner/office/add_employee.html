@@ -1,0 +1,78 @@
+{% extends 'home/base.html' %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+{% include 'include/alert.html' %}
+{% include 'include/office_menu.html' %}
+
+<div class="container">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Add_New_Employee">
+        Add New Employee
+    </button>
+
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Mobile</th>
+          <th scope="col">Pin</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in employee %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{e.name}}</td>
+            <td>{{e.mobile}}</td>
+            <td>{{e.pin}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+
+
+</div>
+
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="Add_New_Employee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Employee</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="POST">{% csrf_token %}
+                <div class="form-group">
+                  <label for="Name">Name</label>
+                  <input type="text" class="form-control" id="Name" name="name" placeholder="Name" required>
+                </div><br>
+                <div class="form-group">
+                  <label for="Mobile">Mobile</label>
+                  <input type="number" class="form-control" id="Mobile" name="mobile" placeholder="Mobile">
+                </div><br>
+                <div class="form-group">
+                  <label for="Pin">Pin</label>
+                  <input type="password" class="form-control" id="Pin" name="pin" placeholder="Pin">
+                </div><br>
+                <button type="submit" name="Add_Employee" class="btn btn-primary">Submit</button>
+              </form><br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock content %}

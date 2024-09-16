@@ -1,0 +1,16 @@
+<style>
+    .buttons{
+        display: flex;
+        gap: 10px;
+        overflow: scroll;
+    }
+</style>
+<div class="container buttons">
+    <div><a  href="/sunil/sunil_home/" class="my-1 {% if request.path == '/sunil/sunil_home/' %}btn btn-warning{% else %}btn btn-primary{% endif %}">Home</a></div>
+    <div><a  href="/sunil/add_employee/" class="my-1 {% if request.path == '/sunil/add_employee/' %}btn btn-warning{% else %}btn btn-primary{% endif %}">Add Employee</a></div>
+
+</div>
+
+
+
+
