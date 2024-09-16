@@ -10,7 +10,7 @@ class Office_employee(models.Model):
 
 class Qr_code(models.Model):
     employee = models.ForeignKey(Office_employee,on_delete=models.PROTECT,null=True)
-    tag_number = models.IntegerField(unique=True)
+    tag_number = models.CharField(unique=True, max_length=100)
     scan_status = models.IntegerField(default=0)
     redeem_status = models.IntegerField(default=0)
     generate_date = models.DateTimeField(auto_now_add=True)

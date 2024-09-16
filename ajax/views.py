@@ -3,7 +3,8 @@ from django.template.loader import render_to_string
 from django.http import *
 from owner.models import *
 import random
-import datetime  
+import datetime 
+import string 
 # Create your views here.
 
 def generate_tag(request):
@@ -13,7 +14,7 @@ def generate_tag(request):
         qr = Qr_code.objects.all().count()
         qr += 1
         for i in range (int(tag_qty)):
-            code = f"{qr}{random.randint(1000,99000)}"
+            code = f"{random.choice(string.ascii_letters)}{random.choice(string.ascii_letters)}-{qr}{random.randint(1,10000)}"
             Qr_code(
                 employee_id=eid,
                 tag_number=code, 

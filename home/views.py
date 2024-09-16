@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from owner.models  import *
 from django.contrib import messages
+import random
+import string
 # Create your views here.
 
 def index(request):
