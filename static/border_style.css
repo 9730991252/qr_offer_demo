@@ -1,58 +1,36 @@
+ .winner_box {
+	position: relative;
+	width: 300px;
+	height: 300px;
+	background: #111;
+	border-radius: 15px;
+	padding: 6px;
+	text-align: center;
+	font-size: 1.2rem;
+	color: white;
+	z-index: 1;
+	overflow: hidden; /* Prevent overflow from blurs */
+ }
 
-.winner_box{
-     border:0px solid white;
-     border-radius:1rem;
-     position:relative;
-     background-color:rgb(255, 255, 255);
-     
-   }
-   
-   :root{
-     --azul:#0033ff;
-     --violeta: #f700ff;
-     --blanco: white;
-     --deg:0deg;
-       
-   }
-   @property --deg{
-     syntax:'<angle>';
-     inherits:false;
-     initial-value:0deg;
-   }
-   .winner_box::after{
-     content:'';
-     border-radius:inherit;
-     inset:-0.5rem;
-     background-color:Red;
-     position:absolute;
-     z-index:-1;
-     background:conic-gradient( from var(--deg),var(--azul),var(--violeta),var(--azul));
-     animation:girar 4s linear infinite;
-     -webkit-animation:girar 4s linear infinite;
+
+
+ .winner_box::before {
+	content: "";
+	position: absolute;
+	inset: -65px;
+	/*Makethepseudo-elementlargertopreventdarkareas*/background: linear-gradient(135deg, 	    #0894FF 25%,  	    #C959DD 40%, 	    #FF2E54 65%, 	    #FF9004 80%);
+	border-radius: 20px;
+	/*Increasetheborder-radiusslightlytomatchthenewsize*/filter: blur(15px);
+	/*Adjustforfadingatcorners*/z-index: -1;
+	/*Keepsthegradientbehindthecontent*/opacity: 1;
+	animation: rotate-element 4s linear infinite;
 }
-   
-   .winner_box::before{
-     filter:blur(20px);
-     --deg:0deg;
-     content:'';
-     border-radius:inherit;
-     inset:-0rem;
-     background-color:Red;
-     position:absolute;
-     z-index:-1;
-     background:conic-gradient( from var(--deg),var(--azul),var(--violeta),var(--azul));
-     animation:girar 4s linear infinite;
-     -webkit-filter:blur(20px);
-     -webkit-animation:girar 4s linear infinite;
-}
-   
-   
-   @keyframes girar {
-     from{
-       --deg:0deg;
-     }
-     
-     to{
-       --deg:360deg;
-     }
-   }
+
+ @keyframes rotate-element {
+	0% {
+	    transform: rotate(0deg);
+	}
+	100% {
+	    transform: rotate(360deg);
+	}
+ }

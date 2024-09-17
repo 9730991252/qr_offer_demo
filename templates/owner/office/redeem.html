@@ -1,0 +1,83 @@
+{% extends 'home/base.html' %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+{% include 'include/alert.html' %}
+{% include 'include/office_menu.html' %}
+
+<style>
+     *{
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+     }
+     .search_box{
+          position: fixed;
+          bottom: 0;
+          background-color: rgba(0, 0, 0, 0.2);
+          padding: 5px;
+          width: 100%;
+          form{
+               display: flex;
+               justify-content: center;
+               gap: 10px;
+          }
+          input{
+               width: 250px;
+          }
+     }
+     .result_box{
+          border: 1px solid black;
+          border-radius: 10px;
+          width: 300px;
+          margin-left: auto;
+          margin-right: auto;
+          margin-top: auto;
+          margin-bottom: auto;
+          padding: 10px;
+     }
+     pending{
+          background-color: red;
+          color: white;
+          border-radius: 5px;
+          padding: 2px;
+          line-height: 0px;
+          font-weight: 700;
+          margin-bottom: 10px;
+     }
+     success{
+          margin-bottom: 10px;
+          background-color: green;
+          color: rgb(255, 255, 255);
+          border-radius: 5px;
+          padding: 2px;
+          line-height: 0px;
+          font-weight: 700;
+     }
+</style>
+
+<div class="text-center search_box">
+     <form method="POST">{% csrf_token %}
+          <div><input type="number" name="sr_num" class="form-control" placeholder="Enter Serial Number Hear" required></div>
+          <div><button class="btn btn-primary" name="search_sr_num">Search</button></div>
+     </form>
+</div>
+
+{% if qr %}
+
+
+<div class="container text-center result_box">
+     <div class="sr_num">Sr .{{qr.sr_num}}</div>
+     <div style="display: flex;justify-content: center;gap: 10px;">
+          <div class="scaned_status">Scan .{% if qr.scan_status == 0 %}<pending>Pending</pending>{% else %}<success>success</success>{% endif %}</div>
+          <div class="scaned_status">Redeem .{% if qr.redeem_status == 0 %}<pending>Pending</pending>{% else %}<success>success</success>{% endif %}</div>
+     </div>
+     {% if qr.redeem_status == 0 and qr.scan_status == 1 %}
+     <div><a href="/owner/redeem_detail/{{qr.sr_num}}" class="btn btn-primary my-3">Add Detail</a></div>
+     {% endif %}
+</div>
+
+
+{% endif %}
+
+{% endblock content %}

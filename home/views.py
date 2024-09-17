@@ -20,7 +20,7 @@ def customer_scan(request, tag_number):
     if Qr_code.objects.filter(tag_number=tag_number).exists():
         qr = Qr_code.objects.get(tag_number=tag_number)
         if qr.scan_status == 0:
-            a = ["apple", "banana", "cherry"]
+            a = ["100", "200", "300", "50", "100", "450", "100", "229", "350", "599", "1000", "450"]
             award = random.choice(a)
             item_id = reward_item_save(award)
             Customer_reward(

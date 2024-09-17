@@ -1,10 +1,35 @@
 from django.shortcuts import render, redirect
 from .models import *
 from django.core.paginator import *
+from django.contrib import messages
 # Create your views here.
 def office_home(request):
     if request.session.has_key('office_mobile'):
         return render(request, 'owner/office/office_home.html')
+    else:
+        return redirect('login')
+    
+def redeem_detail(request,sr_num):
+    if request.session.has_key('office_mobile'):
+        
+        return render(request, 'owner/office/redeem_detail.html')
+    else:
+        return redirect('login')
+    
+def redeem(request):
+    if request.session.has_key('office_mobile'):
+        qr = ''
+        if 'search_sr_num'in request.POST:
+            sr_num = request.POST.get('sr_num')
+            if sr_num:
+                if Qr_code.objects.filter(sr_num=sr_num):
+                    qr = Qr_code.objects.filter(sr_num=sr_num).first()
+                else:
+                    messages.success(request,"Rong QR code")
+        context={
+            'qr':qr
+        }
+        return render(request, 'owner/office/redeem.html', context)
     else:
         return redirect('login')
 
