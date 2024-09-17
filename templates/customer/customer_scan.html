@@ -103,6 +103,14 @@
 
 </div>
  
+<audio style="display: none;" controls autoplay>
+     <source src="{% static 'audio/fireworks.mp3' %}"> 
+</audio>
+<audio style="display: none;" controls autoplay>
+     <source src="{% static 'audio/1.mp3' %}"> 
+</audio>
+
+
 <div class="text-center my-4">
      <b>Scaned At - {{c_r.scan_date}}</b>
 </div>
@@ -116,8 +124,6 @@
 
 
 <script>
-     var audio = new Audio('{% static "audio/1.mp3" %}');
-     audio.play()
      const msg = new SpeechSynthesisUtterance;
      msg.text=`Congratulations, You Have Won  on your Bill !`;
      msg.voice=speechSynthesis.getVoices()[1];
