@@ -80,7 +80,7 @@ def profile(request):
                        mobile=mobile, 
                     ).save()
                 return redirect('profile')
-            s = Shop.objects.get(status=1)
+            s = Shop.objects.filter(status=1).first()
         context={
             'e':e,
             's':s
