@@ -1,0 +1,58 @@
+
+.winner_box{
+     border:0px solid white;
+     border-radius:1rem;
+     position:relative;
+     background-color:rgb(255, 255, 255);
+     
+   }
+   
+   :root{
+     --azul:#0033ff;
+     --violeta: #f700ff;
+     --blanco: white;
+     --deg:0deg;
+       
+   }
+   @property --deg{
+     syntax:'<angle>';
+     inherits:false;
+     initial-value:0deg;
+   }
+   .winner_box::after{
+     content:'';
+     border-radius:inherit;
+     inset:-0.5rem;
+     background-color:Red;
+     position:absolute;
+     z-index:-1;
+     background:conic-gradient( from var(--deg),var(--azul),var(--violeta),var(--azul));
+     animation:girar 4s linear infinite;
+     -webkit-animation:girar 4s linear infinite;
+}
+   
+   .winner_box::before{
+     filter:blur(20px);
+     --deg:0deg;
+     content:'';
+     border-radius:inherit;
+     inset:-0rem;
+     background-color:Red;
+     position:absolute;
+     z-index:-1;
+     background:conic-gradient( from var(--deg),var(--azul),var(--violeta),var(--azul));
+     animation:girar 4s linear infinite;
+     -webkit-filter:blur(20px);
+     -webkit-animation:girar 4s linear infinite;
+}
+   
+   
+   @keyframes girar {
+     from{
+       --deg:0deg;
+     }
+     
+     to{
+       --deg:360deg;
+     }
+   }

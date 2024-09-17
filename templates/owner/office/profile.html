@@ -1,0 +1,121 @@
+{% extends 'home/base.html' %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+{% include 'include/alert.html' %}
+{% include 'include/office_menu.html' %}
+{% load static %}
+<!-- * style -->
+<style>
+     *{
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+     }
+ </style>
+ <!-- end * style -->
+ 
+ <!--* media screen style *-->
+ <style media="only screen and (max-width: 500px)">
+     .col-2{
+         display: none;
+     }
+     .col-10{
+         width: 100%;
+     }
+ </style>
+ <!-- end media screen style -->
+ 
+ <style>
+     form{
+         border: 1px solid rgba(0, 0, 0, 0.3);
+         padding: 10px;
+         width: 400px;
+         height: fit-content;
+         margin: auto;
+     }
+     .img{
+          margin-left: auto;
+          margin-right: auto;
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          overflow: hidden;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          img{
+               width: 100px;
+               height: 100px;
+               border-radius: 50%;
+          }
+     }
+ </style>
+
+
+{{s.id}}
+<div class="container">
+     <form method="POST">{% csrf_token %}
+          <div class="img">
+               <img src="{% static 'img/1.png' %}" alt=" ">
+          </div>
+         <div>
+             <label for="name" class="mt-2">Shop Name</label>
+             <input type="text" id="name" name="shop_name" value="{{s.shop_name}}" placeholder="Shop Name"  class="my-2 form-control" required>
+             <input type="hidden" name="id" value="{{s.id}}">
+         </div>
+         <div>
+             <label for="Shop_Address" class="mt-2">Shop Address</label>
+             <textarea name="shop_address"  placeholder="Shop Address" class="form-control" id="Shop_Address">{{s.shop_address}}</textarea>
+         </div>
+         <div>
+              <label for="owner_name" class="mt-2">Owner Name</label>
+              <input type="text" id="owner_name" value="{{s.owner_name}}" placeholder="Owner Name" name="owner_name" class="my-2 form-control" required>
+          </div>
+          <div>
+              <label for="Mobile" class="mt-2">Mobile</label>
+              <input type="number" oninput="check_mobile()" value="{{s.mobile}}" id="Mobile" placeholder="Mobile" name="mobile" class="my-2 form-control" required>
+          </div>
+         <div>
+             <button class="btn btn-primary form-control my-3" name="edit_profile">Save Changes</button>
+         </div>
+     </form>
+ </div>
+
+
+
+
+<script>
+    function check_mobile(){
+        mobile = document.getElementById('Mobile').value;
+        if (mobile.length <= 9 ){
+          document.getElementById('number').style.borderColor ='green';return false;
+        }
+          if (mobile.length >= 11 ){
+          alert('only 10 digit number ')
+        }
+          if (mobile.length == 10 ){
+              document.getElementById('number').style.borderColor ='';return true;
+
+        }
+    }
+    function check_pin(){
+        pin=document.getElementById('pin').value;
+        if (pin.length <= 3 ){
+          document.getElementById('pin').style.borderColor ='green';return false;
+        }
+          if (pin.length >= 5 ){
+          alert('only 4 digit number Secret Pin')
+        }
+          if (pin.length == 4 ){
+              document.getElementById('pin').style.borderColor ='';return true;
+        }
+    }
+</script>
+
+
+
+
+
+{% endblock content %}

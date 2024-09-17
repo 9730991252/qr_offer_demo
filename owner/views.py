@@ -52,7 +52,69 @@ def generate_qr_code(request):
     else:
         return redirect('login')
 
+def profile(request):
+    if request.session.has_key('office_mobile'):
+        office_mobile = request.session['office_mobile']
+        e = Office_employee.objects.filter(mobile=office_mobile).first()
+        s = ''
+        if e:
+            if 'edit_profile'in request.POST:
+                id = request.POST.get('id')
+                shop_name = request.POST.get('shop_name')
+                shop_address = request.POST.get('shop_address')
+                owner_name = request.POST.get('owner_name')
+                mobile = request.POST.get('mobile')
+                if id:
+                    Shop(
+                        id=id,
+                       shop_name=shop_name, 
+                       shop_address=shop_address, 
+                       owner_name=owner_name, 
+                       mobile=mobile, 
+                    ).save()
+                else:
+                    Shop(
+                       shop_name=shop_name, 
+                       shop_address=shop_address, 
+                       owner_name=owner_name, 
+                       mobile=mobile, 
+                    ).save()
+                return redirect('profile')
+            s = Shop.objects.get(status=1)
+        context={
+            'e':e,
+            's':s
+        }
+        return render(request, 'owner/office/profile.html', context)
+    else:
+        return redirect('login')
 
+def valid_to_date(request):
+    if request.session.has_key('office_mobile'):
+        validity_date = ''
+        if 'validity_date'in request.POST:
+            id = request.POST.get('id')
+            date = request.POST.get('date')
+            if id:
+                Validity_date(
+                    id=id,
+                    date=date
+                ).save()
+                return redirect('valid_to_date')
+            else:
+                Validity_date(
+                    date=date
+                ).save()
+                return redirect('valid_to_date')
+        v = Validity_date.objects.all()
+        if v:
+            validity_date = Validity_date.objects.get(status=1)
+        context={
+            'validity_date':validity_date
+        }
+        return render(request, 'owner/office/valid_to_date.html', context)
+    else:
+        return redirect('login')
 
 
 

@@ -1,6 +1,7 @@
 143.110.240.115
 _______________________________________
 
+cd qr_offer_demo
 git pull
 sudo systemctl daemon-reload
 sudo systemctl restart qr_offer_demo.com.gunicorn

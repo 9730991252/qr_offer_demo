@@ -1,0 +1,49 @@
+{% extends 'home/base.html' %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+{% include 'include/alert.html' %}
+{% include 'include/office_menu.html' %}
+
+<style>
+     *{
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+     }
+     form{
+          width: 300px;
+          height: fit-content;
+          border-radius: 10px;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          background-color: rgba(0, 0, 0, 0.1);
+          margin-left: auto;
+          margin-right: auto;
+          padding: 10px;
+     }
+</style>
+
+
+
+<form method="POST">{% csrf_token %}
+     <div class="form-group">
+          <label for="validity">Validity Date = {{validity_date.date}}</label>
+          <input type="hidden" value="{{validity_date.id}}" name="id">
+          <input class="form-control my-2"  type="date" id="validity" placeholder="Validity Date" name="date" required>
+     </div>
+     <div class="form-group my-3">
+          <button type="submit" class="btn btn-primary form-control" name="validity_date">Save Changes</button>
+     </div>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}

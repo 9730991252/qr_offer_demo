@@ -1,10 +1,129 @@
 {% extends 'home/base.html' %}
 {% block head %}
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endblock head %}
 {% block content %}
 {% include 'include/alert.html' %}
+{% load static %}
 
-<h6>{{tag_number}}</h6>
+<style>
+     *{
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+     }
+     b::before{
+      
+          font-size: 20px;
+     }
+     i{
+          font-size: 20px;
+          text-transform:uppercase;
+     }
+     .winner_box{
+          width: 300px;
+          height: auto;
+          margin-left: auto;
+          margin-right: auto;
+          border: 1px solid rgb(0, 0, 0);
+          margin-top: 70px;
+     }
+     .img_box{
+          width: 200px;
+          margin-left: auto;
+          margin-right: auto;
+          img{
+               width: 100%;
+          }
+     }
+
+  .winner_amount{
+     font-size: 30px;
+     font-weight: 700;
+     margin-left: auto;
+     margin-right: auto;
+     width: fit-content;
+  }
+  .valid_box{
+     font-size: 15px;
+     color: red;
+     font-weight: 700;
+     margin-left: auto;
+     margin-right: auto;
+     width: fit-content;
+  }
+  .shop_detail_box{
+     padding: 10px;
+     border-radius: 10px;
+     margin-top: 10px;
+     width: 300px;
+     margin-left: auto;
+     margin-right: auto;
+     background-color: rgb(255, 235, 198);
+     text-align: center;
+     border: 1px solid rgba(0, 0, 0, 0.3);
+  }   
+  input{
+     text-align: center;
+     margin-right: 5px;
+  }
+</style>
+
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<link rel="stylesheet" href="{% static 'border_style.css' %}">
+<div class="pyro">
+     <div class="before"></div>
+     <div class="after"></div>
+   </div>
+
+<div class="shop_detail_box">
+     <span><b><i>{{s.shop_name}}</i></b></span><br>
+     <p>{{s.shop_address}}</p>
+     <div style="display: flex;justify-content: space-between;">
+          <input type="text" class="form-control" readonly value="{{s.owner_name}}">
+          <input type="text" class="form-control" readonly value="{{s.mobile}}">
+     </div>
+</div>
+
+<div class="containe" style="margin-top: 20px;margin-bottom: -20px;">
+     <div class="text-center">
+          <span><b><i>Scan qr win reward</i></b></span>
+     </div>
+</div>
+
+
+
+<div class="winner_box">
+
+     <div class="img_box"><img src="{% static 'img/trofi.jpg' %}" alt=" "></div>
+     <div class="winner_amount">₹ {{c_r.reward_item.name}}</div>
+     <div class="valid_box">Valid To- 31 Dec 24</div>
+
+</div>
+
+<div class="text-center my-4">
+     <b>Scaned At - {{c_r.scan_date}}</b>
+</div>
+
+<div class="redeem_box text-center my-4">
+     <div>
+          <b>Redeem Now &nbsp;&nbsp;&nbsp;</b>
+          <a href="https://api.whatsapp.com/send?text=Hi&phone=+91 9890525371"><i class='fab fa-whatsapp-square' style='font-size:24px;color:rgb(8, 184, 23)'></i></a>
+     </div>
+</div>
+
+
+<script>
+     var audio = new Audio('{% static "audio/1.mp3" %}');
+     audio.play()
+     const msg = new SpeechSynthesisUtterance;
+     msg.text=`Congratulations, You Have Won  on your Bill !`;
+     msg.voice=speechSynthesis.getVoices()[1];
+     speechSynthesis.speak(msg);
+</script>
+
 
 
 {% endblock content %}
